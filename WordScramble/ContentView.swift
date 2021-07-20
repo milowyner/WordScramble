@@ -43,7 +43,7 @@ struct ContentView: View {
         guard !answer.isEmpty else { return }
         
         guard isOriginal(word: answer) else {
-            wordError(title: "Word used already", message: "Be more original")
+            wordError(title: "Word used already", message: "Be more original.")
             return
         }
         
@@ -54,6 +54,11 @@ struct ContentView: View {
         
         guard isReal(word: answer) else {
             wordError(title: "Word not possible", message: "That isn't a real word.")
+            return
+        }
+        
+        guard isLongEnough(word: answer) else {
+            wordError(title: "Word too short", message: "Be more creative.")
             return
         }
         
@@ -96,6 +101,10 @@ struct ContentView: View {
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         
         return misspelledRange.location == NSNotFound
+    }
+    
+    func isLongEnough(word: String) -> Bool {
+        word.count >= 3
     }
     
     func wordError(title: String, message: String) {
