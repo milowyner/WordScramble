@@ -12,6 +12,10 @@ struct ContentView: View {
     @State private var rootWord = ""
     @State private var newWord = ""
     
+    @State private var errorTitle = ""
+    @State private var errorMessage = ""
+    @State private var showingError = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -28,6 +32,9 @@ struct ContentView: View {
             }
             .navigationTitle(rootWord)
             .onAppear(perform: startGame)
+            .alert(isPresented: $showingError, content: {
+                Alert(title: Text(errorTitle), message: Text(errorMessage))
+            })
         }
     }
     
@@ -35,7 +42,20 @@ struct ContentView: View {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         guard !answer.isEmpty else { return }
         
-        // extra validation to come
+        guard isOriginal(word: answer) else {
+            wordError(title: "Word used already", message: "Be more original")
+            return
+        }
+        
+        guard isPossible(word: answer) else {
+            wordError(title: "Word not recognized", message: "You can't just make them up, you know!")
+            return
+        }
+        
+        guard isReal(word: answer) else {
+            wordError(title: "Word not possible", message: "That isn't a real word.")
+            return
+        }
         
         usedWords.insert(answer, at: 0)
         newWord = ""
@@ -50,6 +70,38 @@ struct ContentView: View {
         let words = startText.components(separatedBy: "\n")
         
         rootWord = words.randomElement() ?? "silkworm"
+    }
+    
+    func isOriginal(word: String) -> Bool {
+        !usedWords.contains(word)
+    }
+    
+    func isPossible(word: String) -> Bool {
+        var remainingLetters = rootWord
+        
+        for letter in word {
+            if let index = remainingLetters.firstIndex(of: letter) {
+                remainingLetters.remove(at: index)
+            } else {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func isReal(word: String) -> Bool {
+        let checker = UITextChecker()
+        let range = NSRange(location: 0, length: word.utf16.count)
+        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        
+        return misspelledRange.location == NSNotFound
+    }
+    
+    func wordError(title: String, message: String) {
+        errorTitle = title
+        errorMessage = message
+        showingError = true
     }
 }
 
