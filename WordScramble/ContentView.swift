@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var score = 0
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -29,6 +31,9 @@ struct ContentView: View {
                     Text($0)
                 }
                 .listStyle(PlainListStyle())
+                
+                Text("Score: \(score)")
+                    .font(.headline)
             }
             .navigationTitle(rootWord)
             .onAppear(perform: startGame)
@@ -65,6 +70,7 @@ struct ContentView: View {
         
         usedWords.insert(answer, at: 0)
         newWord = ""
+        score += answer.count
     }
     
     func startGame() {
@@ -77,6 +83,7 @@ struct ContentView: View {
         
         rootWord = words.randomElement() ?? "silkworm"
         usedWords = []
+        score = 0
     }
     
     func isOriginal(word: String) -> Bool {
