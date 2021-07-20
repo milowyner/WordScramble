@@ -27,6 +27,7 @@ struct ContentView: View {
                 .listStyle(PlainListStyle())
             }
             .navigationTitle(rootWord)
+            .onAppear(perform: startGame)
         }
     }
     
@@ -38,6 +39,17 @@ struct ContentView: View {
         
         usedWords.insert(answer, at: 0)
         newWord = ""
+    }
+    
+    func startGame() {
+        guard let url = Bundle.main.url(forResource: "start", withExtension: "txt"),
+              let startText = try? String(contentsOf: url) else {
+            fatalError("Error loading start.txt")
+        }
+        
+        let words = startText.components(separatedBy: "\n")
+        
+        rootWord = words.randomElement() ?? "silkworm"
     }
 }
 

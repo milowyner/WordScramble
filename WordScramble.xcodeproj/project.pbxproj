@@ -13,6 +13,7 @@
 		055CD91D26A621A50048D138 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 055CD91C26A621A50048D138 /* Assets.xcassets */; };
 		055CD92026A621A50048D138 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 055CD91F26A621A50048D138 /* Preview Assets.xcassets */; };
 		055CD92326A621A50048D138 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 055CD92126A621A50048D138 /* LaunchScreen.storyboard */; };
+		055CD92D26A649E90048D138 /* start.txt in Resources */ = {isa = PBXBuildFile; fileRef = 055CD92C26A649E90048D138 /* start.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		055CD91F26A621A50048D138 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		055CD92226A621A50048D138 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		055CD92426A621A50048D138 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		055CD92C26A649E90048D138 /* start.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = start.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				055CD91A26A621A30048D138 /* ContentView.swift */,
 				055CD91C26A621A50048D138 /* Assets.xcassets */,
 				055CD92126A621A50048D138 /* LaunchScreen.storyboard */,
+				055CD92C26A649E90048D138 /* start.txt */,
 				055CD92426A621A50048D138 /* Info.plist */,
 				055CD91E26A621A50048D138 /* Preview Content */,
 			);
@@ -133,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				055CD92326A621A50048D138 /* LaunchScreen.storyboard in Resources */,
+				055CD92D26A649E90048D138 /* start.txt in Resources */,
 				055CD92026A621A50048D138 /* Preview Assets.xcassets in Resources */,
 				055CD91D26A621A50048D138 /* Assets.xcassets in Resources */,
 			);
