@@ -35,6 +35,7 @@ struct ContentView: View {
             .alert(isPresented: $showingError, content: {
                 Alert(title: Text(errorTitle), message: Text(errorMessage))
             })
+            .navigationBarItems(trailing: Button("Restart", action: startGame))
         }
     }
     
@@ -75,6 +76,7 @@ struct ContentView: View {
         let words = startText.components(separatedBy: "\n")
         
         rootWord = words.randomElement() ?? "silkworm"
+        usedWords = []
     }
     
     func isOriginal(word: String) -> Bool {
