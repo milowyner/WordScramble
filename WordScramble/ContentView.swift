@@ -34,6 +34,13 @@ struct ContentView: View {
         }
     }
     
+    func wordColor(_ wordGeo: GeometryProxy, _ geo: GeometryProxy) -> Color {
+        var percent = (wordGeo.frame(in: .global).midY - geo.frame(in: .global).minY) / (geo.frame(in: .global).maxY - geo.frame(in: .global).minY)
+        if percent < 0 { percent = 0 } else
+        if percent > 1 { percent = 1 }
+        return Color(hue: percent, saturation: 1, brightness: 0.75)
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -48,6 +55,7 @@ struct ContentView: View {
                             GeometryReader { wordGeo in
                                 HStack {
                                     Image(systemName: "\(word.count).circle.fill")
+                                        .foregroundColor(wordColor(wordGeo, geo))
                                     Text(word)
                                 }
                                 .accessibilityElement(children: .ignore)
@@ -114,10 +122,12 @@ struct ContentView: View {
         usedWords = []
         score = 0
         
-        // for debugging
-        for _ in 0..<15 {
-            usedWords.append(words.randomElement() ?? "silkworm")
-        }
+        // For debugging scrolling effects:
+//        for _ in 0..<15 {
+//            var word = words.randomElement() ?? "silkworm"
+//            word.removeLast(Int.random(in: 0..<5))
+//            usedWords.append(word)
+//        }
     }
     
     func isOriginal(word: String) -> Bool {
