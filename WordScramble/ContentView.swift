@@ -18,6 +18,22 @@ struct ContentView: View {
     
     @State private var score = 0
     
+    func wordOffet(_ wordGeo: GeometryProxy, _ geo: GeometryProxy) -> CGFloat {
+        let wordMaxY = wordGeo.frame(in: .global).maxY
+        let wordHeight = wordGeo.size.height
+        let endPoint = geo.frame(in:.global).maxY
+        let startPoint = endPoint - wordHeight
+        
+        if wordMaxY < startPoint {
+            return 0
+        } else if wordMaxY > endPoint {
+            return geo.size.width
+        } else {
+            let percentage = (wordMaxY - endPoint) / wordHeight + 1
+            return geo.size.width * percentage
+        }
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -26,15 +42,24 @@ struct ContentView: View {
                     .padding()
                     .autocapitalization(.none)
                 
-                List(usedWords, id: \.self) { word in
-                    HStack {
-                        Image(systemName: "\(word.count).circle.fill")
-                        Text(word)
+                GeometryReader { geo in
+                    List {
+                        ForEach(usedWords, id: \.self) { word in
+                            GeometryReader { wordGeo in
+                                HStack {
+                                    Image(systemName: "\(word.count).circle.fill")
+                                    Text(word)
+                                }
+                                .accessibilityElement(children: .ignore)
+                                .accessibility(label: Text("\(word), \(word.count) letters"))
+                                .offset(x: wordOffet(wordGeo, geo))
+                                .frame(width: wordGeo.size.width, height: wordGeo.size.height, alignment: .leading)
+                            }
+                            .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                        }
                     }
-                    .accessibilityElement(children: .ignore)
-                    .accessibility(label: Text("\(word), \(word.count) letters"))
+                    .listStyle(PlainListStyle())
                 }
-                .listStyle(PlainListStyle())
                 
                 Text("Score: \(score)")
                     .font(.headline)
@@ -88,6 +113,11 @@ struct ContentView: View {
         rootWord = words.randomElement() ?? "silkworm"
         usedWords = []
         score = 0
+        
+        // for debugging
+        for _ in 0..<15 {
+            usedWords.append(words.randomElement() ?? "silkworm")
+        }
     }
     
     func isOriginal(word: String) -> Bool {
